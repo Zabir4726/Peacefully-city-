@@ -1,0 +1,149 @@
+/* style.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('background_pc.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.logo-box {
+    background: #ffcc00;
+    color: black;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+
+.brand-name {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+h1 {
+    font-size: 2.8rem;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+h1 span { color: #ffcc00; }
+
+.description {
+    font-size: 0.9rem;
+    color: #bbb;
+    margin-bottom: 25px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 12px;
+    transition: 0.3s;
+}
+
+.btn-yellow { background: #ffcc00; color: black; }
+.btn-outline { border: 1px solid #555; color: white; }
+.btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+.status-box {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+.label { font-size: 0.7rem; color: #777; text-transform: uppercase; margin-bottom: 5px; }
+.value { font-weight: bold; font-size: 0.9rem; color: #ffcc00; }
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 25px 0 15px 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+}
+
+.rule-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid #ffcc00;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+}
+
+.rule-item b { color: #ffcc00; display: block; margin-bottom: 3px; }
+
+.admin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.admin-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-info { display: flex; flex-direction: column; }
+.admin-name { font-weight: bold; font-size: 1rem; }
+.admin-rank { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+
+/* Gaya Warna Pangkat (Existing) */
+.rank-owner { color: #ff3333; } 
+.rank-high { color: #ffcc00; }  
+.rank-mod { color: #33ccff; }   
+.rank-jr { color: #aaaaaa; }
+
+/* Gaya Warna Nama Admin (Gantinya Inline Styles) */
+.admin-owner-name { color: #ff3333; } /* Merah */
+.admin-high-name { color: #ffcc00; }  /* Kuning */
+.admin-mod-name { color: #33ccff; }   /* Biru */
+.admin-staff-name { color: #aaaaaa; } /* Abu-abu */
