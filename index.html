@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peacefully City - GTA SAMP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('pcrp1.png');
+            background-size: cover; background-attachment: fixed; background-position: center;
+            color: #f0f0f0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px;
+        }
+        .container { width: 100%; max-width: 450px; }
+        .card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .logo-box { background: #ffcc00; color: black; font-weight: 800; padding: 6px 12px; border-radius: 8px; }
+        
+        h1 { font-size: 2.5rem; line-height: 1.1; margin-bottom: 10px; }
+        h1 span { color: #ffcc00; }
+        .description { font-size: 0.85rem; color: #bbb; margin-bottom: 20px; }
+
+        .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-bottom: 12px; transition: 0.3s; border: none; cursor: pointer; font-size: 0.9rem; }
+        .btn-yellow { background: #ffcc00; color: black; }
+        
+        .status-box { background: rgba(0, 0, 0, 0.6); padding: 15px; border-radius: 15px; text-align: center; position: relative; }
+        .label { font-size: 0.7rem; color: #aaa; text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
+        
+        /* CSS UNTUK MONITORING GAMBAR */
+        .samp-monitoring { width: 100%; border-radius: 10px; border: 1px solid rgba(255, 204, 0, 0.3); }
+
+        .section-title { font-size: 1rem; font-weight: bold; margin: 20px 0 10px 5px; display: flex; align-items: center; gap: 10px; color: #ffcc00; }
+        
+        details { background: rgba(255,255,255,0.03); margin-bottom: 10px; border-radius: 10px; padding: 12px; cursor: pointer; }
+        summary { font-size: 0.85rem; font-weight: bold; list-style: none; display: flex; justify-content: space-between; }
+        .faq-text { font-size: 0.75rem; color: #ccc; margin-top: 10px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <div style="display: flex; align-items: center;">
+                    <div class="logo-box">PC</div>
+                    <span style="margin-left: 10px; font-weight: 800;">Peacefully City</span>
+                </div>
+            </div>
+
+            <h1>Peacefully<br><span>City</span></h1>
+            <p class="description">Roleplay server terbaik. Join komunitas kami sekarang!</p>
+
+            <a href="https://chat.whatsapp.com/CSUsM5vrPKZBbnTz7h9BcX" class="btn btn-yellow"><i class="fa-brands fa-whatsapp"></i> JOIN WHATSAPP</a>
+
+            <div class="status-box" style="margin-top: 20px;">
+                <p class="label">Status Server & Player Online</p>
+                <img src="https://s-p.la/api/image?ip=103.195.188.92:7039&theme=dark" class="samp-monitoring" alt="Loading Player...">
+                <p style="font-size: 0.6rem; color: #555; margin-top: 10px;">Update Otomatis Setiap Menit</p>
+            </div>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <p class="label">Waktu Kota</p>
+            <h2 id="clock" style="font-size: 2rem; color: #fff; margin-bottom: 15px;">00:00:00</h2>
+            
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; display: flex; align-items: center; gap: 15px;">
+                <div onclick="toggleMusic()" id="musicBtn" style="width: 45px; height: 45px; background: #ffcc00; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #000;">
+                    <i class="fa-solid fa-play" id="iconMusic"></i>
+                </div>
+                <div style="text-align: left;">
+                    <p style="font-size: 0.6rem; font-weight: bold; color: #ffcc00;">RADIO PCRP</p>
+                    <p id="statusMusic" style="font-size: 0.75rem; color: #888;">STATUS: PAUSED</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title"><i class="fa-solid fa-circle-question"></i> FAQ KOTA</div>
+        <div class="card">
+            <details>
+                <summary>Cara dapet kerja? <span>+</span></summary>
+                <p class="faq-text">Pergi ke Balai Kota buat ambil KTP, terus cari kerjaan di GPS buat modal makan & minum.</p>
+            </details>
+            <details>
+                <summary>Gimana cara dapet duit? <span>+</span></summary>
+                <p class="faq-text">Kerja halal kayak Gojek atau Kurir paling stabil buat warga baru.</p>
+            </details>
+            <details>
+                <summary>Batas maksimal kendaraan? <span>+</span></summary>
+                <p class="faq-text">Warga biasa maksimal punya 2 kendaraan. Kalau mau lebih harus punya rumah atau garasi.</p>
+            </details>
+        </div>
+
+        <p style="text-align: center; font-size: 0.6rem; color: #444; margin-bottom: 50px;">&copy; 2026 Peacefully City Roleplay</p>
+    </div>
+
+    <audio id="myAudio" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // JAM KOTA
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('id-ID', { hour12: false });
+        }
+        setInterval(updateClock, 1000); updateClock();
+
+        // MUSIK
+        const audio = document.getElementById("myAudio");
+        const icon = document.getElementById("iconMusic");
+        const statusM = document.getElementById("statusMusic");
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                icon.className = "fa-solid fa-pause";
+                statusM.innerText = "STATUS: PLAYING";
+                statusM.style.color = "#00ff00";
+            } else {
+                audio.pause();
+                icon.className = "fa-solid fa-play";
+                statusM.innerText = "STATUS: PAUSED";
