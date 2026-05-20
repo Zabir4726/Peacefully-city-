@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/upload-leech",
+      "destination": "/api/upload-leech.js"
+    }
+  ]
+}
