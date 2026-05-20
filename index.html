@@ -885,6 +885,28 @@
                     </a>
                 </div>
             </div>
+            <!-- KOTAK FITUR LEECH TOP4TOP -->
+<div class="card" style="border: 1px solid rgba(255, 204, 0, 0.3);">
+    <div style="font-weight: 800; color: #ffcc00; margin-bottom: 5px; font-size: 1rem; letter-spacing: 1px; text-transform: uppercase;">
+        <i class="fa-solid fa-cloud-arrow-up"></i> Auto Leech Musik (.mp3)
+    </div>
+    <p style="font-size: 0.72rem; color: #888; margin-bottom: 15px;">Punya link lagu dari luar? Tempel di sini untuk diconvert otomatis ke link Top4Top gratis.</p>
+    
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <input type="text" id="inputLinkLeech" placeholder="Tempel link file audio/musik disini..." style="width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 0.8rem; outline: none;">
+        
+        <button onclick="prosesLeechTop4Top()" id="btnProsesLeech" class="btn btn-yellow" style="margin-bottom: 0; padding: 12px; font-size: 0.8rem;">
+            <i class="fa-solid fa-bolt"></i> PROSES & COPIED LINK
+        </button>
+    </div>
+
+    <!-- Tempat memunculkan link hasil -->
+    <div id="boxHasilLeech" style="display: none; margin-top: 15px; background: rgba(0,255,102,0.1); border: 1px dashed #00ff66; padding: 10px; border-radius: 8px; text-align: center;">
+        <p style="font-size: 0.65rem; color: #00ff66; font-weight: bold; text-transform: uppercase; margin-bottom: 3px;">Link Berhasil Didapatkan:</p>
+        <code id="textHasilLeech" style="font-size: 0.75rem; color: #fff; word-break: break-all;">-</code>
+    </div>
+</div>
+
 
             <div class="section-title"><i class="fa-solid fa-user-shield"></i> STRUKTUR STAFF ADMIN</div>
             <div class="admin-list">
@@ -1071,6 +1093,65 @@
         }
         
         audio.volume = 0.7;
+        
+        async function prosesLeechTop4Top() {
+    const inputLink = document.getElementById("inputLinkLeech").value;
+    const btn = document.getElementById("btnProsesLeech");
+    const boxHasil = document.getElementById("boxHasilLeech");
+    const textHasil = document.getElementById("textHasilLeech");
+
+    if (!inputLink) {
+        alert("Masukkan URL link terlebih dahulu!");
+        return;
+    }
+
+    // Ubah status tombol jadi loading
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-circle-notch rotating"></i> Sedang Memproses...`;
+    boxHasil.style.display = "none";
+
+    try {
+        // PANGGIL BACKEND NODE.JS YANG SUDAH KAMU BUAT
+        // Ganti 'http://localhost:3000' dengan URL server backend aslimu nanti saat dionlinekan
+        const response = await fetch('http://localhost:3000/api/upload-leech', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ link: inputLink })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.result !== "-") {
+            // Tampilkan kotak hasil
+            boxHasil.style.display = "block";
+            textHasil.innerText = data.result;
+
+            // Otomatis salin link ke klipboard pemain
+            navigator.clipboard.writeText(data.result);
+            
+            // Ubah tombol jadi tanda sukses sementara
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> BERHASIL DI-COPY!`;
+            btn.style.background = "#00ff66";
+            
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-bolt"></i> PROSES & COPIED LINK`;
+                btn.style.background = "";
+            }, 3000);
+
+            // Bersihkan kolom inputan
+            document.getElementById("inputLinkLeech").value = "";
+        } else {
+            throw new Error("Link tidak valid atau server top4top menolak.");
+        }
+
+    } catch (err) {
+        alert("Gagal memproses link! Pastikan link langsung menuju file musik asli.");
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-bolt"></i> PROSES & COPIED LINK`;
+    }
+}
+
       
         // === DATABASE CERITA FA KASI BADSIDE PCRP (GANTI TOTAL BAGIAN INI) ===
     const databaseGeng = {
