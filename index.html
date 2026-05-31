@@ -662,7 +662,7 @@
                 <ul style="margin-left: 20px; color: #ccc;">
                     <li><b style="color: #33ccff;">SAPD (Kepolisian Kota)</b>: Bertugas menegakkan hukum, patroli keamanan, menangkap kriminal, dan menjaga ketertiban lalu lintas.</li>
                     <li><b style="color: #33ccff;">SAMD (Medis Kota)</b>: Menyediakan layanan kesehatan darurat, perawatan medis, dan transportasi ambulans bagi warga yang membutuhkan.</li>
-                    <li><b style="color: #33ccff;">Pemerintah Kota</b>: Mengelola administrasi kota, pembangunan infrastruktur, dan pelayanan publik bagi seluruh warga.</li>
+                    <li><b style="color: #33ccff;">Pemerintah Kota</b>: Mengelola administrasi kota, pembangunan infrastruktur, and pelayanan publik bagi seluruh warga.</li>
                 </ul>
             </div>
 
@@ -899,13 +899,16 @@
             </div>
 
             <div class="card" style="border: 1px dashed rgba(255, 204, 0, 0.3); background: rgba(0,0,0,0.2); padding: 20px; margin-bottom: 20px;">
-                <div style="font-weight: 800; color: #fff; margin-bottom: 4px; font-size: 0.95rem; letter-spacing: 0.5px; text-transform: uppercase;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #ffcc00;"></i> Top4Top Link Converter</div>
-                <p style="font-size: 0.72rem; color: #888; margin-bottom: 14px;">Convert link YouTube / TikTok musik lu jadi direct tautan mp3 audio Top4Top secara otomatis.</p>
+                <div style="font-weight: 800; color: #fff; margin-bottom: 4px; font-size: 0.95rem; letter-spacing: 0.5px; text-transform: uppercase;"><i class="fa-solid fa-cloud-arrow-up" style="color: #ffcc00;"></i> Stenly Top4Top Uploader</div>
+                <p style="font-size: 0.72rem; color: #888; margin-bottom: 14px;">Pilih and unggah file audio (.mp3) atau gambar dari galeri HP lu langsung ke server Top4Top via Stenly API secara aman and instan.</p>
                 
-                <input type="text" id="inputLinkLeech" placeholder="Tempel URL Video YouTube / TikTok disini..." style="width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 0.8rem; margin-bottom: 12px; outline: none; font-weight: 600;">
+                <label for="inputFileStenly" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); border-radius: 8px; color: #bbb; font-size: 0.8rem; cursor: pointer; font-weight: 600; margin-bottom: 12px; transition: 0.2s;" id="labelNamaFile">
+                    <i class="fa-solid fa-file-music" style="color: #ffcc00; font-size: 1.1rem;"></i> <span>PILIH FILE AUDIO / GAMBAR</span>
+                </label>
+                <input type="file" id="inputFileStenly" accept="audio/mp3,audio/*,image/*" style="display: none;" onchange="updateInfoFileSelected()">
                 
-                <button id="btnProsesLeech" onclick="prosesLeechTop4Top()" class="btn btn-yellow" style="margin-bottom: 0; padding: 12px; font-size: 0.78rem; font-weight: 800; border-radius: 8px; width: 100%;">
-                    <i class="fa-solid fa-bolt"></i> CONVERT & COPY LINK
+                <button id="btnProsesLeech" onclick="prosesUploadDirectStenly()" class="btn btn-yellow" style="margin-bottom: 0; padding: 12px; font-size: 0.78rem; font-weight: 800; border-radius: 8px; width: 100%;">
+                    <i class="fa-solid fa-rocket"></i> UNGGAH & COPY DIRECT LINK
                 </button>
 
                 <div id="boxHasilLeech" style="display: none; margin-top: 12px; background: rgba(0,255,102,0.06); border: 1px solid rgba(0,255,102,0.2); padding: 10px; border-radius: 8px; text-align: center;">
@@ -1213,74 +1216,6 @@
         
         audio.volume = 0.7;
 
-        // === INTEGRASI BARU: EMULASI LEECH CONVERTER VIA STENLY API ===
-        async function prosesLeechTop4Top() {
-            const inputLink = document.getElementById("inputLinkLeech").value.trim();
-            const btn = document.getElementById("btnProsesLeech");
-            const boxHasil = document.getElementById("boxHasilLeech");
-            const textHasil = document.getElementById("textHasilLeech");
-
-            if (!inputLink) {
-                alert("Masukkan URL link video TikTok atau YouTube terlebih dahulu, Bang!");
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-circle-notch rotating"></i> Sedang Memproses via Stenly API...`;
-            boxHasil.style.display = "none";
-
-            try {
-                // Catatan: Jika API Stenly punya endpoint khusus untuk Leech/Link, pakai endpoint itu.
-                // Di bawah ini adalah contoh jika lu menembakkan link ke server backend lu sendiri (/api/upload-leech) 
-                // yang kemudian bertugas mendownload file tersebut lalu melemparnya ke API Stenly (https://stenly.org/api/uploader/top4top).
-                
-                const response = await fetch('/api/upload-leech', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        link: inputLink,
-                        target_api: "https://stenly.org/api/uploader/top4top" 
-                    })
-                });
-
-                const data = await response.json();
-
-                // Membaca property 'Result_url' sesuai struktur JSON Response di gambar 1001099921.jpg
-                const finalUrl = data.Result_url || data.result;
-
-                if (finalUrl && finalUrl !== "-") {
-                    boxHasil.style.display = "block";
-                    textHasil.innerText = finalUrl;
-                    
-                    // Otomatis salin hasil direct link ke clipboard HP warga
-                    navigator.clipboard.writeText(finalUrl);
-                    
-                    btn.innerHTML = `<i class="fa-solid fa-check"></i> BERHASIL DI-COPY!`;
-                    btn.style.background = "#00ff66";
-                    btn.style.color = "#000";
-                    
-                    setTimeout(() => {
-                        btn.disabled = false;
-                        btn.innerHTML = `<i class="fa-solid fa-bolt"></i> CONVERT & COPY LINK`;
-                        btn.style.background = "";
-                        btn.style.color = "";
-                    }, 3000);
-
-                    document.getElementById("inputLinkLeech").value = "";
-                } else {
-                    throw new Error(data.error || "Gagal mendapatkan Result_url dari API.");
-                }
-
-            } catch (err) {
-                alert("Error: " + err.message + "\n\nPastikan server backend /api/upload-leech milikmu sudah dikonfigurasi untuk meneruskan file ke Stenly API.");
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-bolt"></i> CONVERT & COPY LINK`;
-                btn.style.background = "";
-                btn.style.color = "";
-            }
-        }
-
-
         let namaPendaftar = "";
 
         function lanjutPilihAdmin() {
@@ -1305,6 +1240,81 @@
             const teksFormat = `Halo Min ${namaAdmin}, saya mau daftar Whitelist Peacefully City dengan nama: ${namaPendaftar}`;
             const linkWA = `https://api.whatsapp.com/send?phone=${noHp}&text=${encodeURIComponent(teksFormat)}`;
             window.open(linkWA, '_blank');
+        }
+
+        function updateInfoFileSelected() {
+            const fileInput = document.getElementById("inputFileStenly");
+            const labelSpan = document.querySelector("#labelNamaFile span");
+            if (fileInput.files.length > 0) {
+                labelSpan.innerText = "TERPILIH: " + fileInput.files[0].name;
+                labelSpan.style.color = "#ffcc00";
+            } else {
+                labelSpan.innerText = "PILIH FILE AUDIO / GAMBAR";
+                labelSpan.style.color = "";
+            }
+        }
+
+        // === FRONT-END SECURE FETCH INTERACTION ===
+        async function prosesUploadDirectStenly() {
+            const fileInput = document.getElementById("inputFileStenly");
+            const btn = document.getElementById("btnProsesLeech");
+            const boxHasil = document.getElementById("boxHasilLeech");
+            const textHasil = document.getElementById("textHasilLeech");
+
+            if (fileInput.files.length === 0) {
+                alert("Pilih file audio mp3 atau gambar lu dulu dari galeri HP, Bang!");
+                return;
+            }
+
+            const fileTarget = fileInput.files[0];
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch rotating"></i> Memproses via Vercel Proxy...`;
+            boxHasil.style.display = "none";
+
+            const formDataBody = new FormData();
+            formDataBody.append("file", fileTarget);
+
+            try {
+                // Menembak proxy serverless Node.js kita sendiri (Bebas CORS!)
+                const response = await fetch('/api/upload-leech', {
+                    method: 'POST',
+                    body: formDataBody
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.Result_url) {
+                    boxHasil.style.display = "block";
+                    textHasil.innerText = data.Result_url;
+                    
+                    navigator.clipboard.writeText(data.Result_url);
+                    
+                    btn.innerHTML = `<i class="fa-solid fa-check"></i> LINK BERHASIL DI-COPY!`;
+                    btn.style.background = "#00ff66";
+                    btn.style.color = "#000";
+                    
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.innerHTML = `<i class="fa-solid fa-rocket"></i> UNGGAH & COPY DIRECT LINK`;
+                        btn.style.background = "";
+                        btn.style.color = "";
+                    }, 4000);
+
+                    fileInput.value = "";
+                    document.querySelector("#labelNamaFile span").innerText = "PILIH FILE AUDIO / GAMBAR";
+                    document.querySelector("#labelNamaFile span").style.color = "";
+                } else {
+                    throw new Error(data.error || "Gagal upload.");
+                }
+
+            } catch (err) {
+                alert("Gagal Upload via Vercel Backend Proxy!\n\nPenyebab: " + err.message + "\n\nSolusi: Pastikan folder 'api/upload-leech.js' sudah lu buat and di-deploy ke Vercel.");
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-rocket"></i> UNGGAH & COPY DIRECT LINK`;
+                btn.style.background = "";
+                btn.style.color = "";
+            }
         }
 
         const databaseGeng = {

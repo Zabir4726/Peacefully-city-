@@ -1,81 +1,69 @@
-import express from 'express';
-import axios from 'axios';
+// api/upload-leech.js
+import formidable from 'formidable';
+import fs from 'fs';
+import fetch from 'node-fetch';
 import FormData from 'form-data';
-import cors from 'cors';
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-async function uploadToTop4Top(buffer, originalFilename) {
-  const form = new FormData();
-  const cleanFilename = (originalFilename || 'audio.mp3').replace(/(\.mp3)?$/i, '.mp3');
-  
-  form.append('file_0_', buffer, { filename: cleanFilename });
-  form.append('submitr', '[ رفع الملفات ]');
-
-  const { data } = await axios.post('https://top4top.io/index.php', form, {
-    headers: {
-      ...form.getHeaders(),
-      'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36',
-      'Origin': 'https://top4top.io',
-      'Referer': 'https://top4top.io/index.php'
+export const config = {
+    api: {
+        bodyParser: false, // Wajib false agar serverless bisa membaca file binary multipart
     },
-    maxBodyLength: Infinity,
-    maxContentLength: Infinity
-  });
+};
 
-  return data.match(/value="(https?:\/\/[^"]+)"/i)?.[1]?.replace(/^https:/, 'http:') || '-';
-}
+export default async function handler(req, res) {
+    // Set Header CORS biar front-end lu gak mogok saat manggil api ini
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
-// Endpoint Utama Serverless
-app.post('/api/upload-leech', async (req, res) => {
-  try {
-    const { link } = req.body;
-    if (!link) return res.status(400).json({ error: 'URL link harus diisi!' });
-
-    let audioBuffer;
-    let filename = `pcrp_${Date.now()}.mp3`;
-
-    if (link.includes('youtube.com') || link.includes('youtu.be')) {
-      const ytApiUrl = `https://api.anyas.biz.id/api/downloader/youtube-mp3?url=${encodeURIComponent(link)}`;
-      const apiRes = await axios.get(ytApiUrl);
-      const directAudioUrl = apiRes.data?.result?.download?.url || apiRes.data?.url;
-      if (!directAudioUrl) throw new Error('API gagal mengonversi video YouTube ini.');
-
-      const audioDownload = await axios.get(directAudioUrl, { responseType: 'arraybuffer' });
-      audioBuffer = audioDownload.data;
-      filename = `${apiRes.data?.result?.title || 'yt_audio'}.mp3`;
-    } 
-    else if (link.includes('tiktok.com')) {
-      const tikwmRes = await axios.get(`https://www.tikwm.com/api/?url=${encodeURIComponent(link)}`);
-      const directAudioUrl = tikwmRes.data?.data?.music_info?.play || tikwmRes.data?.data?.music;
-      if (!directAudioUrl) throw new Error('Gagal mengambil audio dari TikTok.');
-      
-      const audioDownload = await axios.get(directAudioUrl, { responseType: 'arraybuffer' });
-      audioBuffer = audioDownload.data;
-      filename = `${tikwmRes.data?.data?.music_info?.title || 'tiktok_audio'}.mp3`;
-    } 
-    else {
-      const audioDownload = await axios.get(link, { responseType: 'arraybuffer' });
-      const contentType = audioDownload.headers['content-type'] || '';
-      if (contentType.includes('text/html')) {
-        throw new Error('Link bukan file musik asli, melainkan halaman web.');
-      }
-      audioBuffer = audioDownload.data;
-      filename = link.split('/').pop() || 'audio.mp3';
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
     }
 
-    const top4topLink = await uploadToTop4Top(audioBuffer, filename);
-    if (top4topLink === '-') throw new Error('Top4Top menolak file.');
+    if (req.method !== 'POST') {
+        return res.status(405).json({ success: false, error: 'Method not allowed' });
+    }
 
-    return res.json({ success: true, result: top4topLink });
+    const form = formidable({ multiples: false });
 
-  } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
-  }
-});
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Gagal membaca file di server backend.' });
+        }
 
-// WAJIB DI-EXPORT UNTUK VERCEL SERVERLESS
-export default app;
+        const fileData = files.file;
+        if (!fileData) {
+            return res.status(400).json({ success: false, error: 'Tidak ada file yang dipilih.' });
+        }
+
+        try {
+            // Bungkus filebinary mentah menggunakan FormData Node.js asli sesuai gambar docs lu
+            const formPayload = new FormData();
+            formPayload.append('file', fs.createReadStream(fileData.filepath), {
+                filename: fileData.originalFilename,
+                contentType: fileData.mimetype
+            });
+
+            // Tembak langsung dari server Vercel ke Stenly API (Aman dari cekkal CORS Browser!)
+            const targetResponse = await fetch('https://stenly.org/api/uploader/top4top', {
+                method: 'POST',
+                headers: formPayload.getHeaders(),
+                body: formPayload
+            });
+
+            const rawResult = await targetResponse.json();
+
+            if (rawResult.Status === true && rawResult.Result_url) {
+                // Kirim response JSON bersih dan valid kembali ke halaman index.html utama
+                return res.status(200).json({ success: true, Result_url: rawResult.Result_url });
+            } else {
+                return res.status(400).json({ success: false, error: rawResult.message || 'Gagal dapet url dari Stenly.' });
+            }
+
+        } catch (postErr) {
+            return res.status(500).json({ success: false, error: 'Koneksi backend ke Stenly API terputus atau limit file terlampaui.' });
+        }
+    });
+}
