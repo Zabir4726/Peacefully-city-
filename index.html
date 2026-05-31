@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peacefully City - GTA SAMP</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -57,23 +57,79 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 25px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 12px 18px;
+            margin-bottom: 30px;
             width: 100%;
             position: relative;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .brand-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
         .logo-box-small img {
-            height: 45px;
+            height: 40px;
             width: auto;
             display: block;
+            filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.3));
         }
 
-        .brand-text {
-            font-weight: 800;
-            font-size: 0.9rem;
-            color: #fff;
-            letter-spacing: 0.5px;
+        .brand-text-container {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .brand-main-title {
+            font-weight: 900;
+            font-size: 1.05rem;
+            color: #ffffff;
+            letter-spacing: 1.5px;
+            line-height: 1;
             text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .brand-sub-jargon {
+            font-weight: 700;
+            font-size: 0.62rem;
+            color: #ffcc00;
+            letter-spacing: 3px;
+            line-height: 1;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(255, 204, 0, 0.4);
+        }
+
+        .btn-menu-utama {
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-menu-utama:hover {
+            background: #ffcc00;
+            color: #000;
+            border-color: #ffcc00;
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(255, 204, 0, 0.4);
         }
 
         .card {
@@ -93,12 +149,22 @@
         }
 
         h1 {
-            font-size: 2.8rem;
-            line-height: 1;
-            margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900; 
+            font-size: 3.2rem; 
+            line-height: 0.95; 
+            margin-bottom: 12px;
+            letter-spacing: -1.5px; 
+            text-transform: uppercase;
+            color: #ffffff;
         }
 
-        h1 span { color: #ffcc00; }
+        h1 span { 
+            color: #ffcc00; 
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.5); 
+        }
 
         .description {
             font-size: 0.9rem;
@@ -203,7 +269,7 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
-            z-index: 1000;
+            z-index: 99999; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -278,74 +344,26 @@
             margin-bottom: 15px;
             border: 1px solid rgba(255, 51, 51, 0.1);
         }
-        
-        .event-card {
-            background: linear-gradient(135deg, rgba(255, 204, 0, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border: 1px solid rgba(255, 204, 0, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .event-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ffcc00;
-            color: #000;
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 4px 8px;
-            border-radius: 5px;
-            text-transform: uppercase;
-        }
-        
-        .event-item {
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-        }
-        
-        .event-icon {
-            font-size: 1.8rem;
-            color: #ffcc00;
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
-        }
-        
-        .event-text h3 {
-            font-size: 1rem;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        
-        .event-text p {
-            font-size: 0.8rem;
-            color: #ccc;
-            line-height: 1.4;
-        }
 
-        .btn-br {
-            background: #ff3333;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.8rem;
+        .mendung-title {
+            font-size: 1rem;
             font-weight: 800;
-            display: inline-flex;
+            color: #fff;
+            display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 10px;
-            transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
         }
-
-        .btn-br:hover {
-            background: #cc0000;
-            transform: scale(1.02);
-        }
+        
+        .mendung-item { margin-bottom: 12px; }
+        .mendung-item-title { font-weight: 700; color: #ff3333; font-size: 0.9rem; margin-bottom: 5px; }
+        .mendung-list { list-style: none; margin-left: 5px; }
+        .mendung-list li { font-size: 0.85rem; color: #ccc; display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+        .mendung-list li i { width: 18px; text-align: center; }
 
         .job-category-title {
             font-size: 1rem;
@@ -371,52 +389,26 @@
             gap: 10px;
         }
 
-        .mendung-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 8px;
+        details {
+            margin-bottom: 10px; 
+            background: rgba(255,255,255,0.02); 
+            padding: 14px 16px; 
+            border-radius: 14px; 
+            border: 1px solid rgba(255,255,255,0.04);
+            border-left: 3px solid #ffcc00;
+            transition: background 0.3s;
         }
-        
-        .mendung-item { margin-bottom: 12px; }
-        .mendung-item-title { font-weight: 700; color: #ff3333; font-size: 0.9rem; margin-bottom: 5px; }
-        .mendung-list { list-style: none; margin-left: 5px; }
-        .mendung-list li { font-size: 0.85rem; color: #ccc; display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
-        .mendung-list li i { width: 18px; text-align: center; }
-        
-        /* DESIGN MENU DROPDOWN */
-        .btn-menu-utama {
-            background: #ffcc00;
-            color: #000;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(255,204,0,0.2);
-            user-select: none;
-        }
-        .btn-menu-utama:hover { transform: translateY(-1px); opacity: 0.9; }
+        details[open] { background: rgba(255,255,255,0.05); }
 
         .dropdown-content-premium {
             display: none;
             position: absolute;
             top: 110%;
             right: 0;
-            width: 180px;
+            width: 190px;
             background: #111;
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             z-index: 9999;
             overflow: hidden;
@@ -436,10 +428,7 @@
             transition: background 0.2s;
         }
         .dropdown-item-premium:last-child { border-bottom: none; }
-        .dropdown-item-premium.item-bad { color: #fff; }
-        .dropdown-item-premium.item-good { color: #fff; }
-        .dropdown-item-premium.item-job { color: #fff; }
-        .dropdown-item-premium:hover { background: rgba(255,255,255,0.05); }
+        .dropdown-item-premium:hover { background: rgba(255,255,255,0.05); color: #ffcc00; }
 
         @keyframes dropMasuk {
             from { opacity: 0; transform: translateY(-10px); }
@@ -465,41 +454,112 @@
             transition: all 0.2s ease-in-out;
         }
         .copy-btn:hover { background: #fff; transform: scale(1.05); box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); }
-        .copy-btn:active { transform: scale(0.95); }
 
-        .rotating { animation: putar 3s linear infinite; }
-        @keyframes putar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 8px rgba(0, 255, 102, 0.6), 0 0 15px rgba(0, 255, 102, 0.3); opacity: 0.9; }
-            100% { text-shadow: 0 0 18px rgba(0, 255, 102, 0.9), 0 0 30px rgba(0, 255, 102, 0.5); opacity: 1; }
+        .event-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 204, 0, 0.15);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.3s ease;
+        }
+        .event-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 204, 0, 0.3);
+        }
+        
+        .event-badge {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            font-size: 0.58rem;
+            font-weight: 900;
+            padding: 3px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .badge-gold { background: rgba(255, 204, 0, 0.15); color: #ffcc00; border: 1px solid rgba(255, 204, 0, 0.2); }
+        .badge-red { background: rgba(255, 51, 51, 0.15); color: #ff3333; border: 1px solid rgba(255, 51, 51, 0.2); }
+        
+        .event-icon-box {
+            font-size: 1.4rem;
+            width: 38px;
+            height: 38px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .event-content-box {
+            flex: 1;
+            min-width: 0;
+            padding-right: 65px; 
+        }
+        
+        .event-content-box h3 {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 3px;
+            letter-spacing: 0.5px;
+        }
+        
+        .event-content-box p {
+            font-size: 0.78rem;
+            color: #aaaaaa;
+            line-height: 1.4;
         }
 
-        /* TUNING FLOATING MUSIC PLAYER POJOK KIRI BAWAH LAYAR */
-		.music-player-floating {
-		    position: fixed;
-		    bottom: 20px;
-		    left: 20px;
-		    width: 240px; /* 🔽 Lebar disunat dari 320px jadi 240px (Lebih pendek) */
-		    background: rgba(15, 15, 15, 0.85); 
-		    backdrop-filter: blur(15px);
-		    border: 1px solid rgba(255, 255, 255, 0.1);
-		    border-radius: 15px;
-		    padding: 10px; /* 🔽 Jarak spasi dalam dipersempit */
-		    z-index: 9999;
-		    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-		    transition: all 0.3s ease;
-		}
-		
-		/* Pas di HP warga biar makin pas dan gak maruk tempat */
-		@media (max-width: 480px) {
-		    .music-player-floating {
-		        width: 210px; /* 🔽 Di HP dikecilkan lagi jadi cuma 200px! Mini banget */
-		        bottom: 15px;
-		        left: 15px;
-		        padding: 8px;
-		    }
-		}
+        .btn-br {
+            background: #ff3333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-br:hover { background: #cc0000; transform: scale(1.02); }
+
+        .music-player-floating {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 240px;
+            background: rgba(15, 15, 15, 0.85); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 10px;
+            z-index: 999; 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 480px) {
+            .music-player-floating {
+                width: 200px;
+                bottom: 15px;
+                left: 15px;
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -574,7 +634,7 @@
 
             <div class="rule-item" style="border-left-color: #ff3333; margin-bottom: 0;">
                 <b>Rekrutmen Anggota Baru</b>
-                Geng dan mafia seringkali merekrut anggota baru dari kalangan muda yang putus asa atau memiliki kecenderungan kriminal. Proses rekrutmen melibatkan uji nyali, loyalitas, dan kemampuan khusus yang dibutuhkan oleh kelompok tersebut. Menjadi bagian dari Badside berarti siap untuk hidup di luar hukum dan menghadapi konsekuensinya.
+                Geng dan mafia seringkali merekrut anggota baru dari kalangan muda yang putus asa atau memiliki kecenderungan kriminal. Proses rekrutmen melibatkan uji nyali, loyalitas, and kemampuan khusus yang dibutuhkan oleh kelompok tersebut. Menjadi bagian dari Badside berarti siap untuk hidup di luar hukum dan menghadapi konsekuensinya.
             </div>
 
             <div class="rule-item" style="border-left-color: #ff3333; margin-bottom: 0;">
@@ -761,11 +821,11 @@
                         <span>👮 ADMIN 2 (Morgan)</span> <i class="fa-brands fa-whatsapp" style="color: #00ff66;"></i>
                     </button>
                     
-                        <button onclick="kirimKeWA('6282347614097', 'Fradz')" class="btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; justify-content: space-between; padding: 12px 15px; border-radius: 8px; margin: 0;">
+                    <button onclick="kirimKeWA('6282347614097', 'Fradz')" class="btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; justify-content: space-between; padding: 12px 15px; border-radius: 8px; margin: 0;">
                         <span>👮 ADMIN 2 (Fradz)</span> <i class="fa-brands fa-whatsapp" style="color: #00ff66;"></i>
                     </button>
                     
-                    <button onclick="kirimKeWA('6283141385102', 'Vanzz)" class="btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; justify-content: space-between; padding: 12px 15px; border-radius: 8px; margin: 0;">
+                    <button onclick="kirimKeWA('6283141385102', 'Vanzz')" class="btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; justify-content: space-between; padding: 12px 15px; border-radius: 8px; margin: 0;">
                         <span>👮 ADMIN 3 (Vanzz)</span> <i class="fa-brands fa-whatsapp" style="color: #00ff66;"></i>
                     </button>
 
@@ -781,33 +841,37 @@
 
     <div class="container">
         <div class="card" style="margin-bottom: 20px;">
+            
             <div class="header-brand">
-                <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="brand-wrapper">
                     <div class="logo-box-small">
                         <img src="pcrp2.png" alt="PC Logo">
                     </div>
-                    <div class="brand-text">SELAMAT DATANG DI WEBSITE</div>
+                    <div class="brand-text-container">
+                        <span class="brand-main-title">PCRP NETWORK</span>
+                        <span class="brand-sub-jargon">SECOND LIFE</span>
+                    </div>
                 </div>
 
                 <div class="btn-menu-utama" onclick="toggleDropdownPremium()">
-                    <i class="fa-solid fa-bars"></i> 
+                    <i class="fa-solid fa-bars"></i>
                 </div>
 
                 <div id="dropdown-list-premium" class="dropdown-content-premium">
-                    <label for="badside-toggle" class="dropdown-item-premium item-bad" onclick="toggleDropdownPremium()">
+                    <label for="badside-toggle" class="dropdown-item-premium" onclick="toggleDropdownPremium()">
                         <i class="fa-solid fa-skull"></i> BADSIDE INFO
                     </label>
-                    <label for="goodside-toggle" class="dropdown-item-premium item-good" onclick="toggleDropdownPremium()">
-                        <i class="fa-solid fa-earth-americas"></i> GOODSIDE INFO
+                    <label for="goodside-toggle" class="dropdown-item-premium" onclick="toggleDropdownPremium()">
+                        <i class="fa-solid fa-shield"></i> GOODSIDE INFO
                     </label>
-                    <label for="links-hub-toggle" class="dropdown-item-premium item-job" onclick="toggleDropdownPremium()">
-                        <i class="fa-solid fa-earth-americas"></i> PUSAT LINK KOMUNITAS
+                    <label for="links-hub-toggle" class="dropdown-item-premium" onclick="toggleDropdownPremium()">
+                        <i class="fa-solid fa-link"></i> PUSAT LINK DIREKTORI
                     </label>
-                    <label for="fng-lore-toggle" class="dropdown-item-premium item-bad" onclick="toggleDropdownPremium()">
+                    <label for="fng-lore-toggle" class="dropdown-item-premium" onclick="toggleDropdownPremium()">
                         <i class="fa-solid fa-mask"></i> LORE & SEJARAH GENG
                     </label>
-                    <label for="job-toggle" class="dropdown-item-premium item-job" onclick="toggleDropdownPremium()">
-                        <i class="fa-solid fa-briefcase"></i> DAFTAR KERJA
+                    <label for="job-toggle" class="dropdown-item-premium" onclick="toggleDropdownPremium()">
+                        <i class="fa-solid fa-briefcase"></i> DAFTAR DATA KERJA
                     </label>
                 </div>
             </div>
@@ -834,12 +898,28 @@
                 </div>
             </div>
 
+            <div class="card" style="border: 1px dashed rgba(255, 204, 0, 0.3); background: rgba(0,0,0,0.2); padding: 20px; margin-bottom: 20px;">
+                <div style="font-weight: 800; color: #fff; margin-bottom: 4px; font-size: 0.95rem; letter-spacing: 0.5px; text-transform: uppercase;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #ffcc00;"></i> Top4Top Link Converter</div>
+                <p style="font-size: 0.72rem; color: #888; margin-bottom: 14px;">Convert link YouTube / TikTok musik lu jadi direct tautan mp3 audio Top4Top secara otomatis.</p>
+                
+                <input type="text" id="inputLinkLeech" placeholder="Tempel URL Video YouTube / TikTok disini..." style="width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 0.8rem; margin-bottom: 12px; outline: none; font-weight: 600;">
+                
+                <button id="btnProsesLeech" onclick="prosesLeechTop4Top()" class="btn btn-yellow" style="margin-bottom: 0; padding: 12px; font-size: 0.78rem; font-weight: 800; border-radius: 8px; width: 100%;">
+                    <i class="fa-solid fa-bolt"></i> CONVERT & COPY LINK
+                </button>
+
+                <div id="boxHasilLeech" style="display: none; margin-top: 12px; background: rgba(0,255,102,0.06); border: 1px solid rgba(0,255,102,0.2); padding: 10px; border-radius: 8px; text-align: center;">
+                    <p class="label" style="color: #00ff66; margin-bottom: 2px; font-size: 0.6rem;">TAUTAN DIRECT TOP4TOP LU:</p>
+                    <p id="textHasilLeech" style="font-size: 0.75rem; color: #fff; font-family: monospace; word-break: break-all; font-weight: 700;"></p>
+                </div>
+            </div>
+
             <div class="card" style="text-align: center; border-top: 3px solid #ffcc00; border-bottom: 3px solid #ffcc00; padding: 25px; margin-bottom: 20px;">
                 <div style="font-weight: 800; color: #fff; margin-bottom: 5px; font-size: 1.1rem; letter-spacing: 1px;">PENDAFTARAN WARGA</div>
                 <p style="font-size: 0.75rem; color: #888; margin-bottom: 20px;">Pilih jalur hidupmu di Peacefully City.</p>
                 
                 <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 10px;">
-                    <a href="https://info-goodside-pcrp.vercel.app/" target="_blank" class="btn" style="background: #33ccff; color: #000; flex: 1; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: 0;">
+                    <a href="https://info-goodside-pdrp.vercel.app/" target="_blank" class="btn" style="background: #33ccff; color: #000; flex: 1; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: 0;">
                         <i class="fa-solid fa-address-card" style="font-size: 1.2rem;"></i>GOODSIDE
                     </a>
                     <a href="https://info-badside-pcrp.vercel.app/" target="_blank" class="btn" style="background: #ff3333; color: #fff; flex: 1; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: 0;">
@@ -864,29 +944,25 @@
             </div>
 
             <div class="section-title"><i class="fa-solid fa-star"></i> EVENT MINGGU INI</div>
+            
             <div class="event-card">
-                <div class="event-badge">COMING SOON</div>
-                <div class="event-item">
-                    <div class="event-icon"><i class="fa-solid fa-trophy"></i></div>
-                    <div class="event-text">
-                        <h3>EVENT PEACEFULLY CITY</h3>
-                        <p>COMING SOON!</p>
-                    </div>
+                <div class="event-badge badge-gold">COMING SOON</div>
+                <div class="event-icon-box" style="color: #ffcc00;"><i class="fa-solid fa-trophy"></i></div>
+                <div class="event-content-box">
+                    <h3>EVENT PEACEFULLY CITY</h3>
+                    <p>COMING SOON!</p>
                 </div>
             </div>
 
-            <div class="event-card" style="border-color: rgba(51, 204, 255, 0.3); background: linear-gradient(135deg, rgba(51, 204, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);">
-                <div class="event-badge" style="background: #ff3333;">OPEN</div>
-                <div class="event-item">
-                    <div class="event-icon" style="color: #ff3333; text-shadow: 0 0 10px rgba(51, 204, 255, 0.5);"><i class="fa-solid fa-user"></i></div>
-                    <div class="event-text">
-                        <h3>OPEN IMPORT FAMILY</h3>
-                        <p>KAMI MENCARI FAMILY YANG INGIN MEMASUKI SERVER KAMI,BENEFIT? JAN TANYA LANGSUNG AJA PM <a href="https://wa.me/6282136426167" target="_blank" style="color: #ff3333; text-decoration: none;">YENN ATAU KLIK DISINI</a></p>
-                    </div>
+            <div class="event-card" style="border-color: rgba(255, 51, 51, 0.25);">
+                <div class="event-badge badge-red">OPEN</div>
+                <div class="event-icon-box" style="color: #ff3333;"><i class="fa-solid fa-user"></i></div>
+                <div class="event-content-box">
+                    <h3>OPEN IMPORT FAMILY</h3>
+                    <p>KAMI MENCARI FAMILY YANG INGIN MEMASUKI SERVER KAMI,BENEFIT? JAN TANYA LANGSUNG AJA PM <a href="https://wa.me/6282136426167" target="_blank" style="color: #ff3333; text-decoration: none; font-weight: bold;">YENN ATAU KLIK DISINI</a></p>
                 </div>
             </div>
 
-            <div class="section-title"><i class="fa-solid fa-camera"></i> GALLERY KOTA</div>
             <div class="gallery-grid">
                 <div class="gallery-item"><img src="pic1.jpg" alt="Gallery 1"></div>
                 <div class="gallery-item"><img src="pic2.jpg" alt="Gallery 2"></div>
@@ -988,28 +1064,27 @@
         </div> 
     </div> 
 
-        <div class="music-player-floating">
-        <div style="display: flex; align-items: center; gap: 8px;"> <div onclick="toggleMusic()" id="musicBtn" style="width: 32px; height: 32px; background: #ffcc00; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #000; flex-shrink: 0; font-size: 0.7rem;">
+    <div class="music-player-floating">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div onclick="toggleMusic()" id="musicBtn" style="width: 32px; height: 32px; background: #ffcc00; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #000; flex-shrink: 0; font-size: 0.7rem;">
                 <i class="fa-solid fa-play" id="iconMusic"></i>
             </div>
 
-            <div style="flex: 1; min-width: 0;"> <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+            <div style="flex: 1; min-width: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
                     <p id="statusMusic" style="font-size: 0.58rem; font-weight: 800; color: #aaa; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px;">STOPPED</p>
                     <div style="display: flex; gap: 10px; color: #ffcc00; font-size: 0.75rem; flex-shrink: 0;">
                         <i class="fa-solid fa-backward-step" onclick="prevSong()" style="cursor: pointer;"></i>
                         <i class="fa-solid fa-forward-step" onclick="nextSong()" style="cursor: pointer;"></i>
                     </div>
                 </div>
-                
                 <input type="range" id="progressBar" min="0" max="100" value="0" style="width: 100%; height: 2px; accent-color: #ffcc00; cursor: pointer; display: block;">
-                
                 <div style="display: flex; justify-content: space-between; font-size: 0.5rem; color: #666; margin-top: 2px; font-family: monospace;">
                     <span id="currentTime">0:00</span>
                     <span id="totalDuration">0:00</span>
                 </div>
             </div>
         </div>
-
         <div style="margin-top: 5px; display: flex; align-items: center; gap: 6px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 4px;">
             <i class="fa-solid fa-volume-low" style="font-size: 0.5rem; color: #555;"></i>
             <input type="range" id="volSlider" min="0" max="1" step="0.1" value="0.7" style="flex: 1; height: 2px; accent-color: #ffcc00; cursor: pointer;">
@@ -1018,19 +1093,12 @@
 
     <audio id="myAudio" loop></audio>
 
-
     <script>
-        // Logika Dropdown Menu Utama
         function toggleDropdownPremium() {
             const dropdown = document.getElementById("dropdown-list-premium");
-            if (dropdown.style.display === "block") {
-                dropdown.style.display = "none";
-            } else {
-                dropdown.style.display = "block";
-            }
+            dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
         }
 
-        // Tutup dropdown otomatis jika klik di luar area menu
         window.addEventListener('click', function(e) {
             const container = document.querySelector('.header-brand');
             const dropdown = document.getElementById("dropdown-list-premium");
@@ -1039,7 +1107,6 @@
             }
         });
 
-        // Logika Sistem Copy IP Otomatis
         function copyIP() {
             const ipText = document.getElementById("serverIP").innerText;
             const copyBtn = document.querySelector(".copy-btn");
@@ -1061,7 +1128,6 @@
             });
         }
 
-        // Logika Musik Player Premium
         const audio = document.getElementById("myAudio");
         const icon = document.getElementById("iconMusic");
         const btn = document.getElementById("musicBtn");
@@ -1146,35 +1212,48 @@
         }
         
         audio.volume = 0.7;
-        
+
+        // === INTEGRASI BARU: EMULASI LEECH CONVERTER VIA STENLY API ===
         async function prosesLeechTop4Top() {
-            const inputLink = document.getElementById("inputLinkLeech").value;
+            const inputLink = document.getElementById("inputLinkLeech").value.trim();
             const btn = document.getElementById("btnProsesLeech");
             const boxHasil = document.getElementById("boxHasilLeech");
             const textHasil = document.getElementById("textHasilLeech");
 
             if (!inputLink) {
-                alert("Masukkan URL link terlebih dahulu!");
+                alert("Masukkan URL link video TikTok atau YouTube terlebih dahulu, Bang!");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-circle-notch rotating"></i> Sedang Memproses...`;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch rotating"></i> Sedang Memproses via Stenly API...`;
             boxHasil.style.display = "none";
 
             try {
+                // Catatan: Jika API Stenly punya endpoint khusus untuk Leech/Link, pakai endpoint itu.
+                // Di bawah ini adalah contoh jika lu menembakkan link ke server backend lu sendiri (/api/upload-leech) 
+                // yang kemudian bertugas mendownload file tersebut lalu melemparnya ke API Stenly (https://stenly.org/api/uploader/top4top).
+                
                 const response = await fetch('/api/upload-leech', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ link: inputLink })
+                    body: JSON.stringify({ 
+                        link: inputLink,
+                        target_api: "https://stenly.org/api/uploader/top4top" 
+                    })
                 });
 
                 const data = await response.json();
 
-                if (data.success && data.result !== "-") {
+                // Membaca property 'Result_url' sesuai struktur JSON Response di gambar 1001099921.jpg
+                const finalUrl = data.Result_url || data.result;
+
+                if (finalUrl && finalUrl !== "-") {
                     boxHasil.style.display = "block";
-                    textHasil.innerText = data.result;
-                    navigator.clipboard.writeText(data.result);
+                    textHasil.innerText = finalUrl;
+                    
+                    // Otomatis salin hasil direct link ke clipboard HP warga
+                    navigator.clipboard.writeText(finalUrl);
                     
                     btn.innerHTML = `<i class="fa-solid fa-check"></i> BERHASIL DI-COPY!`;
                     btn.style.background = "#00ff66";
@@ -1182,26 +1261,26 @@
                     
                     setTimeout(() => {
                         btn.disabled = false;
-                        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> CONVERT & COPY LINK`;
+                        btn.innerHTML = `<i class="fa-solid fa-bolt"></i> CONVERT & COPY LINK`;
                         btn.style.background = "";
                         btn.style.color = "";
                     }, 3000);
 
                     document.getElementById("inputLinkLeech").value = "";
                 } else {
-                    throw new Error(data.error || "Gagal memproses link.");
+                    throw new Error(data.error || "Gagal mendapatkan Result_url dari API.");
                 }
 
             } catch (err) {
-                alert("Error: " + err.message + "\n\nPastikan ukuran audio tidak terlalu besar (Max ~4.5MB di Vercel) atau coba gunakan link lagu lain.");
+                alert("Error: " + err.message + "\n\nPastikan server backend /api/upload-leech milikmu sudah dikonfigurasi untuk meneruskan file ke Stenly API.");
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> CONVERT & COPY LINK`;
+                btn.innerHTML = `<i class="fa-solid fa-bolt"></i> CONVERT & COPY LINK`;
                 btn.style.background = "";
                 btn.style.color = "";
             }
         }
 
-        // Logika Whitelist Input Nama & Alur Otomatis Kirim WhatsApp
+
         let namaPendaftar = "";
 
         function lanjutPilihAdmin() {
@@ -1228,7 +1307,6 @@
             window.open(linkWA, '_blank');
         }
 
-        // Database Cerita Faksi Badside PCRP
         const databaseGeng = {
             grovestreet: {
                 nama: "GROVE STREET FAMILIES",
@@ -1256,7 +1334,7 @@
                 leader: "Gabriel_Exzel",
                 warna: "#ff3366",
                 wilayah: "Las Venturas Sektor Barat",
-                sejarah: "Sindikat kejahatan terorganisir asal negeri sakura yang bergerak di bawah bayangan hukum. Terkenal dengan kode etik kehormatan yang ketat, mereka menguasai bisnis kasino ilegal, pencucian uang, dan penyelundupan barang mewah."
+                sejarah: "Sindikat kejahatan terorganisir asal negeri sakura yang bergerak di bawah bayangan hukum. Terkenal dengan kode ethic kehormatan yang ketat, mereka menguasai bisnis kasino ilegal, pencucian uang, dan penyelundupan barang mewah."
             },
             colombia: {
                 nama: "COLOMBIAN CARTEL",
